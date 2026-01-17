@@ -423,14 +423,26 @@
                 // Get all auto demo images (group 1)
                 var images = $('.auto-demo-image');
 
-                // Phase 1: Move to overlap position (center of lightbox)
-                images.each(function(index) {
-                    var overlapX = 200 + (index % 2) * 50; // Slight spread in center
-                    var overlapY = 200 + Math.floor(index / 2) * 50;
+                // Phase 1: Move to overlap position (all images to same center location)
+                // Find the lightbox container for the auto demo images
+                var lightbox = $('.auto-demo-image').first().closest('.lightbox');
+                var lightboxPadding = 20; // lightbox has 20px padding
+                var lightboxWidth = lightbox.width();
+                var lightboxHeight = lightbox.height();
 
+                console.log('Lightbox dimensions:', lightboxWidth, 'x', lightboxHeight);
+
+                // Use a fixed center position that works well for the layout
+                // Based on the lightbox being 1100px wide, center around 400-500px
+                var centerX = 400; // Fixed center X position
+                var centerY = 200; // Fixed center Y position
+
+                console.log('Moving to center position:', centerX, centerY);
+
+                images.each(function(index) {
                     $(this).animate({
-                        left: overlapX,
-                        top: overlapY
+                        left: centerX,
+                        top: centerY
                     }, 2000, 'swing');
                 });
 
