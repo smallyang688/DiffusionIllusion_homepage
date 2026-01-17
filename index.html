@@ -217,6 +217,21 @@
         pointer-events: none;
         z-index: 5;
     }
+
+    .rot_hidden_disk {
+        border-radius: 50%; /* 确保是圆形旋转 */
+        user-drag: none;
+        -webkit-user-drag: none;
+        object-fit: contain;
+    }
+
+    .rot-hidden-container {
+        /* 增加一个轻微的阴影或边框让圆盘感更强 */
+        border: 2px solid #eee;
+        border-radius: 50%;
+        padding: 5px;
+        background: #f9f9f9;
+    }
   </style>
 
   <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
@@ -562,6 +577,23 @@
             }, 100);
         });
 
+        // 重置旋转圆盘的按钮逻辑
+        $('.reset-all-rot-hidden').click(function () {
+            $('.rot_hidden_disk').each(function () {
+                // 停止动画（如果有）并重置角度
+                $(this).removeClass('flip_image_animated');
+                $(this).css({
+                    'transform': 'rotate(0deg)',
+                    'transition': 'transform 1s'
+                });
+
+                // 1秒后清除 transition 以便后续手动旋转顺畅
+                setTimeout(() => {
+                    $(this).css('transition', '');
+                }, 1000);
+            });
+        });
+
     });
   </script>
 </head>
@@ -802,6 +834,37 @@
       </div>
     </div>
     <!--/ Interactive Demos. -->
+  </div>
+</section>
+
+<!-- Rotational Hidden Overlay Demo -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <h3 class="title is-4" style="margin-top: 2rem;">Rotational Hidden Overlay</h3>
+    <p>Drag to rotate the top disk. Align it to the correct angle to reveal the secret!</p>
+    <div style="text-align: center; margin: 20px 0;">
+      <button class="reset-all-rot-hidden button is-primary">Reset All Disks</button>
+    </div>
+
+    <div class="columns is-centered" style="gap: 40px;">
+      <div class="column is-one-half">
+        <div class="rot-hidden-container" style="position: relative; display: inline-block; width: 300px; height: 300px;">
+          <img src="./static/images/rot_hidden_base_1.png" style="width: 100%; height: 100%; position: absolute; top:0; left:0;">
+          <img src="./static/images/rot_hidden_overlay_1.png"
+               class="rot_hidden_disk flip_image glow-hover-element"
+               style="width: 100%; height: 100%; position: absolute; top:0; left:0; mix-blend-mode: multiply; cursor: grab;">
+        </div>
+      </div>
+
+      <div class="column is-one-half">
+        <div class="rot-hidden-container" style="position: relative; display: inline-block; width: 300px; height: 300px;">
+          <img src="./static/images/rot_hidden_base_2.png" style="width: 100%; height: 100%; position: absolute; top:0; left:0;">
+          <img src="./static/images/rot_hidden_overlay_2.png"
+               class="rot_hidden_disk flip_image glow-hover-element"
+               style="width: 100%; height: 100%; position: absolute; top:0; left:0; mix-blend-mode: multiply; cursor: grab;">
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
