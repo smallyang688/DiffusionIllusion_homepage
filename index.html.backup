@@ -34,8 +34,8 @@
   <link rel="stylesheet" href="./static/css/index.css">
   <link rel="icon" href="./static/images/favicon.svg">
 
-  <!-- Diffusion Illusion 样式 -->
   <style>
+    /* Diffusion Illusion 样式 */
     .flip_image {
         -webkit-user-drag: none;
         user-select: none;
@@ -82,78 +82,45 @@
         filter: brightness(100%);
     }
 
-    .hidden-character-image-container {
-        display: inline-block;
-        position: relative;
-        margin: 0;
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        height: 256px;
-        width: 256px;
-        background-color: rgba(255, 255, 255, 0.05);
-    }
-
-    .hidden-character-image {
-        height: 256px;
-        width: 256px;
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: 10;
-        cursor: grab;
-        border-radius: 5px;
-    }
-
-    /* Rotation Overlay styles - copied from another.html */
     .rot-image-container {
         display: inline-block;
         position: relative;
         filter: brightness(200%);
-        margin: 10px;
-    }
-
-    .rot_image_size {
-        width: 256px;
         height: 256px;
+        width: 256px;
     }
 
     .quad-rotating-image {
         position: absolute;
         top: 0;
         left: 0;
-        animation: quad_rotate 12s linear infinite;
         mix-blend-mode: multiply;
     }
 
     @keyframes quad_rotate {
-        0% {
-            transform: rotateZ(0deg);
-        }
-
-        12.5%,
-        25% {
-            transform: rotateZ(90deg);
-        }
-
-        37.5%,
-        50% {
-            transform: rotateZ(180deg);
-        }
-
-        62.5%,
-        75% {
-            transform: rotateZ(270deg);
-        }
-
-        87.5%,
-        100% {
-            transform: rotateZ(360deg);
-        }
+        0% { transform: rotateZ(0deg); }
+        12.5%, 25% { transform: rotateZ(90deg); }
+        37.5%, 50% { transform: rotateZ(180deg); }
+        62.5%, 75% { transform: rotateZ(270deg); }
+        87.5%, 100% { transform: rotateZ(360deg); }
     }
 
+    .quad-rotating-animation {
+        animation: quad_rotate 12s linear infinite;
+    }
 
-    .ui-draggable-dragging {
-        cursor: grabbing !important;
-        z-index: 1000;
+    .hidden-character-image-container {
+        display: inline-block;
+        position: relative;
+        margin: 0;
+        border: 0;
+        height: 256px;
+        width: 256px;
+    }
+
+    .hidden-character-image {
+        height: 256px;
+        width: 256px;
     }
 
     .row {
@@ -168,43 +135,6 @@
         border-radius: 20px;
         max-width: 100%;
         box-shadow: 0px 0px 51px 5px rgba(255, 255, 255, 0.62);
-        position: relative;
-        padding: 20px;
-        display: inline-block;
-    }
-
-    /* Glow hover effect - copied from another.html */
-    .glow-hover-element {
-        transition: box-shadow 0.1s ease-in-out;
-    }
-
-    .glow-hover-element {
-        --shadow-opacity: .4;
-        /* Opacity value ranging from 0 to 1 */
-        --shadow-size: 15px;
-        /* Base size of the shadow */
-        --shadow-saturation: 400%;
-        /* Saturation value ranging from 0% to 100% */
-    }
-
-    .glow-hover-element:hover {
-        box-shadow:
-            0 0 calc(var(--shadow-size) * 1) hsla(0, 0%, 100%, var(--shadow-opacity)),
-            0 0 calc(var(--shadow-size) * 1.5) hsla(330, var(--shadow-saturation), 62%, var(--shadow-opacity)),
-            0 0 calc(var(--shadow-size) * 2) hsla(330, var(--shadow-saturation), 62%, var(--shadow-opacity)),
-            0 0 calc(var(--shadow-size) * 2.5) hsla(330, var(--shadow-saturation), 62%, var(--shadow-opacity)),
-            0 0 calc(var(--shadow-size) * 3) hsla(330, var(--shadow-saturation), 62%, var(--shadow-opacity)),
-            0 0 calc(var(--shadow-size) * 3.5) hsla(330, var(--shadow-saturation), 62%, var(--shadow-opacity)),
-            0 0 calc(var(--shadow-size) * 4) hsla(330, var(--shadow-saturation), 62%, var(--shadow-opacity));
-    }
-
-    /* Target area rectangle */
-    .target-area {
-        position: absolute;
-        border: 2px dashed rgba(0, 123, 255, 0.5);
-        background-color: rgba(0, 123, 255, 0.05);
-        pointer-events: none;
-        z-index: 5;
     }
   </style>
 
@@ -216,8 +146,8 @@
   <script src="./static/js/bulma-slider.min.js"></script>
   <script src="./static/js/index.js"></script>
 
-  <!-- Diffusion Illusion JavaScript -->
   <script>
+    // Diffusion Illusion JavaScript 代码
     $(function () {
         function storeOriginalPositions() {
             $('.draggable-image').each(function () {
@@ -234,12 +164,10 @@
                     }
                 },
                 drag: function (event, ui) {
-                    var transformMatrix = $(this).css('transform');
                     ui.helper.css('transform', transformMatrix);
-                    $('.reset-all-rotaters-button, .reset-all-hidden-characters-button').removeClass('inactive_button');
                 },
                 stop: function () {
-                    $('.reset-all-rotaters-button, .reset-all-hidden-characters-button').removeClass('inactive_button');
+                    $('.reset-all-hidden-characters-button').removeClass('inactive_button');
                 }
             }).dblclick(function () {
                 var originalPosition = $(this).data('originalPosition');
@@ -341,80 +269,6 @@
         resetHiddenCharactersPositions();
         resetFlipImagesPositions();
         initFlipImageRotation();
-
-        // Initialize rotation overlay pause/play functionality
-        $('.rotation-overlay-pause-button').data('state', 'pause').on('click', function () {
-            var button = $(this);
-            var currentState = button.data('state');
-
-            if (currentState === 'pause') {
-                button.data('state', 'play');
-                button.html('Play Animation');
-                $('.quad-rotating-image').css('animation-play-state', 'paused');
-            } else if (currentState === 'play') {
-                button.data('state', 'pause');
-                button.html('Pause Animation');
-                $('.quad-rotating-image').css('animation-play-state', 'running');
-            }
-        });
-
-        // Initialize rotation overlay reset functionality
-        $('.reset-all-rotaters-button').click(function () {
-            // Reset rotation overlay images with smooth animation
-            $('.quad-rotating-image').each(function () {
-                // Stop animation temporarily during reset
-                $(this).css('animation-play-state', 'paused');
-
-                // Animate back to initial position and rotation
-                $(this).animate({
-                    top: 0,
-                    left: 0
-                }, 1000, function() {
-                    // After position animation completes, reset rotation and restart animation
-                    $(this).css({
-                        'transform': 'rotateZ(0deg)',
-                        'animation-play-state': 'running'
-                    });
-                });
-            });
-
-            // Reset pause button to initial state
-            $('.rotation-overlay-pause-button').data('state', 'pause').html('Pause Animation');
-
-            $(this).addClass('inactive_button');
-        });
-
-        // Adjust target area position based on image containers
-        function adjustTargetArea() {
-            var containers = $('.hidden-character-image-container');
-            if (containers.length > 0) {
-                var firstContainer = containers.first();
-                var containerWidth = firstContainer.outerWidth();
-                var containerHeight = firstContainer.outerHeight();
-                var lightbox = $('.lightbox');
-                var lightboxPadding = parseInt(lightbox.css('padding-left')) || 20;
-
-                // Keep the large target area that spans all images
-                var targetArea = $('#target-area');
-                var lightboxWidth = $('.lightbox').width();
-                var targetAreaWidth = 1040;
-                var centerLeft = (lightboxWidth - targetAreaWidth) / 2;
-
-                targetArea.css({
-                    'width': targetAreaWidth + 'px',
-                    'height': containerHeight + 'px',
-                    'left': centerLeft + 'px',
-                    'top': lightboxPadding + 'px'
-                });
-                console.log('Target area set to:', targetArea.css('width'), 'x', targetArea.css('height'), 'at left:', centerLeft);
-            }
-        }
-
-        // Adjust target area after images load
-        $(window).on('load', function() {
-            setTimeout(adjustTargetArea, 100);
-        });
-
     });
   </script>
 </head>
@@ -579,9 +433,13 @@
       </div>
     </div>
     <!--/ Abstract. -->
+  </div>
+</section>
 
-    <!-- Interactive Demos. -->
-    <div class="columns is-centered has-text-centered">
+<!-- Interactive Demos Section -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
       <div class="column is-four-fifths">
         <h2 class="title is-3">Interactive Demos</h2>
 
@@ -595,22 +453,8 @@
           <div class="column is-half">
             <div class="image-container" style="text-align: center;">
               <div class="caption">Example Flip Image</div>
-              <img src="./static/images/flip_example.jpg" class="flip_image flip_image_animated glow-hover-element" style="max-width: 200px; max-height: 200px;">
+              <img src="./static/images/flip_example.jpg" class="flip_image flip_image_animated" style="max-width: 200px; max-height: 200px;">
             </div>
-          </div>
-        </div>
-
-        <!-- Rotation Overlay Demo -->
-        <h3 class="title is-4" style="margin-top: 2rem;">Rotation Overlay Illusion</h3>
-        <p>Click and drag to rotate the top image. Watch how the combined image changes!</p>
-        <div style="text-align: center; margin: 20px 0;">
-          <button class="reset-all-rotaters-button button is-primary" style="margin-right: 10px;">Reset All Positions</button>
-          <button class="rotation-overlay-pause-button button is-warning">Pause Animation</button>
-        </div>
-        <div style="text-align: center; margin: 20px 0;">
-          <div class="rot-image-container">
-            <img src="./static/images/rotation_base.png" class="rot_image_size">
-            <img src="./static/images/rotation_overlay.png" class="rot_image_size quad-rotating-image draggable-image glow-hover-element">
           </div>
         </div>
 
@@ -620,22 +464,19 @@
         <div style="text-align: center; margin: 20px 0;">
           <button class="reset-all-hidden-characters-button button is-primary">Reset All Positions</button>
         </div>
-        <div class="lightbox" style="padding: 20px; margin: 20px auto; width: 1100px; position: relative;">
-          <!-- Target area rectangle - shows where images should overlap -->
-          <div class="target-area" id="target-area" style="width: 1040px; height: 260px; left: 20px; top: 20px;"></div>
-
+        <div class="lightbox" style="padding: 20px; margin: 20px auto; max-width: 600px;">
           <div class="row">
             <div class="hidden-character-image-container">
-              <img src="./static/images/overlay1.png" class="draggable-image quad-overlay hidden-character-image glow-hover-element">
+              <img src="./static/images/overlay1.png" class="draggable-image quad-overlay hidden-character-image">
             </div>
             <div class="hidden-character-image-container">
-              <img src="./static/images/overlay2.png" class="draggable-image quad-overlay hidden-character-image glow-hover-element">
+              <img src="./static/images/overlay2.png" class="draggable-image quad-overlay hidden-character-image">
             </div>
             <div class="hidden-character-image-container">
-              <img src="./static/images/overlay3.png" class="draggable-image quad-overlay hidden-character-image glow-hover-element">
+              <img src="./static/images/overlay3.png" class="draggable-image quad-overlay hidden-character-image">
             </div>
             <div class="hidden-character-image-container">
-              <img src="./static/images/overlay4.png" class="draggable-image quad-overlay hidden-character-image glow-hover-element">
+              <img src="./static/images/overlay4.png" class="draggable-image quad-overlay hidden-character-image">
             </div>
           </div>
           <div class="caption" style="text-align: center; margin-top: 10px;">
@@ -644,9 +485,11 @@
         </div>
       </div>
     </div>
-    <!--/ Interactive Demos. -->
   </div>
 </section>
+
+
+
 
 <section class="section" id="BibTeX">
   <div class="container is-max-desktop content">
