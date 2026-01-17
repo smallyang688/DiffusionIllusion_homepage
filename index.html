@@ -460,10 +460,13 @@
             var images = $('.auto-demo-image');
 
             // Phase 1: Move to overlap position (all images to same center location)
-            // Calculate center of lightbox for proper overlapping
+            // Calculate center based on "between second and third image" as user described
             var lightbox = $('.auto-demo-image').first().closest('.lightbox');
             var lightboxWidth = lightbox.width();
-            var centerX = lightboxWidth / 2 - 128; // Center of lightbox minus half image width
+
+            // Position at the center between second and third image
+            // Second image ends at 512px, third image starts at 512px, so center is 512px
+            var centerX = 512; // Position between 2nd and 3rd image in horizontal layout
             var centerY = 180; // Fixed Y position that looks good
 
             console.log('Auto demo: Lightbox width:', lightboxWidth, 'Center X:', centerX);
