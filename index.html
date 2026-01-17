@@ -159,7 +159,7 @@
 
     .row {
         display: flex;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
         justify-content: center;
         flex-direction: row;
     }
@@ -430,7 +430,7 @@
                 // Keep the large target area that spans all images
                 var targetAreas = $('#target-area, #target-area-geo');
                 var lightboxWidth = $('.lightbox').width();
-                var targetAreaWidth = 1040;
+                var targetAreaWidth = 1120; // Updated for 1200px lightbox (1200-80=1120)
                 var centerLeft = (lightboxWidth - targetAreaWidth) / 2;
 
                 targetAreas.css({
@@ -724,7 +724,7 @@
 
         <div class="demo-groups">
         <!-- Group 1: Automatic overlap demo -->
-        <div class="lightbox" style="padding: 20px; margin: 20px auto; width: 1100px; position: relative;">
+        <div class="lightbox" style="padding: 20px; margin: 20px auto; width: 1200px; position: relative;">
           <div class="row">
             <div class="hidden-character-image-container">
               <img src="./static/images/overlap1.png" class="draggable-image quad-overlay hidden-character-image glow-hover-element auto-demo-image">
@@ -742,9 +742,9 @@
         </div>
 
         <!-- Group 2: Manual drag demo -->
-        <div class="lightbox" style="padding: 20px; margin: 20px auto; width: 1100px; position: relative;">
+        <div class="lightbox" style="padding: 20px; margin: 20px auto; width: 1200px; position: relative;">
           <!-- Target area rectangle - shows where images should overlap -->
-          <div class="target-area" id="target-area" style="width: 1040px; height: 260px; left: 30px; top: 20px;"></div>
+          <div class="target-area" id="target-area" style="width: 1120px; height: 260px; left: 40px; top: 20px;"></div>
           <!-- Glow effect box -->
           <div class="glow-effect" id="glow-effect"></div>
 
@@ -765,9 +765,9 @@
         </div>
 
         <!-- Group 3: New geometric patterns -->
-        <div class="lightbox" style="padding: 20px; margin: 20px auto; width: 1100px; position: relative;">
+        <div class="lightbox" style="padding: 20px; margin: 20px auto; width: 1200px; position: relative;">
           <!-- Target area rectangle - shows where images should overlap -->
-          <div class="target-area" id="target-area-geo" style="width: 1040px; height: 260px; left: 20px; top: 20px;"></div>
+          <div class="target-area" id="target-area-geo" style="width: 1120px; height: 260px; left: 40px; top: 20px;"></div>
           <div class="row">
             <div class="hidden-character-image-container">
               <img src="./static/images/overlay5.png" class="draggable-image quad-overlay hidden-character-image glow-hover-element">
