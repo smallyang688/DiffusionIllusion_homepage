@@ -1118,7 +1118,8 @@
 
 <script type="module">
     import * as THREE from 'three';
-    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+    // 引入 ArcballControls (全向旋转控制器)
+    import { ArcballControls } from 'three/addons/controls/ArcballControls.js';
     import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
 
     function init3DViewer() {
@@ -1138,10 +1139,17 @@
         renderer.setSize(container.clientWidth, container.clientHeight);
         container.appendChild(renderer.domElement);
 
-        // 4. 添加控制器 (允许鼠标拖拽旋转)
-        const controls = new OrbitControls(camera, renderer.domElement);
-        controls.enableDamping = true; // 增加惯性，手感更好
-        controls.dampingFactor = 0.05;
+        // 4. 添加控制器 (改为 ArcballControls 以消除死角)
+        // 注意：ArcballControls 需要传入 scene，因为它默认会带一个辅助圈(Gizmo)
+        const controls = new ArcballControls(camera, renderer.domElement, scene);
+
+        // 隐藏默认的彩色控制圈 (Gizmo)，保持画面干净
+        controls.setGizmosVisible(false);
+
+        // 设置阻尼，让旋转有惯性，手感更好
+        controls.enableAnimations = true;
+        controls.dampingFactor = 10; // Arcball 的阻尼系数算法不同，通常要在 5-20 之间
+        controls.wMax = 12; // 旋转灵敏度限制
 
         // 5. 改进灯光系统 (Studio Lighting)
         // 半球光：模拟天空光 (白色) 和地面反光 (深灰)，这能让模型阴影部分也有细节
