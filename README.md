@@ -1,7 +1,7 @@
 这是我2025秋计算机视觉大作业的项目homepage。此homepage全部由我（Zihan Yang）一人搭建完成。
 
-在此处【https://smallyang688.github.io/Creating-Visual-Cognitive-Illusions_homepage/】访问我们项目的homepage
-在此处【https://github.com/smallyang688/Creating-Visual-Cognitive-Illusions】访问我们项目的Github仓库
+在此处【 https://smallyang688.github.io/Creating-Visual-Cognitive-Illusions_homepage 】访问我们项目的homepage
+在此处【 https://github.com/smallyang688/Creating-Visual-Cognitive-Illusions 】访问我们项目的Github仓库
 
 
 # Website License
