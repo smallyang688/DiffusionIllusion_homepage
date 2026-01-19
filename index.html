@@ -1143,17 +1143,21 @@
         controls.enableDamping = true; // 增加惯性，手感更好
         controls.dampingFactor = 0.05;
 
-        // 5. 添加灯光 (确保模型不是全黑的)
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.6); // 环境光
-        scene.add(ambientLight);
+        // 5. 改进灯光系统 (Studio Lighting)
+        // 半球光：模拟天空光 (白色) 和地面反光 (深灰)，这能让模型阴影部分也有细节
+        const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 1.0);
+        hemiLight.position.set(0, 20, 0);
+        scene.add(hemiLight);
 
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8); // 平行光
-        directionalLight.position.set(10, 20, 10);
-        scene.add(directionalLight);
+        // 主光源：强光，制造高光和阴影
+        const dirLight = new THREE.DirectionalLight(0xffffff, 1.5);
+        dirLight.position.set(50, 50, 50); // 从侧上方打光
+        scene.add(dirLight);
 
-        const directionalLight2 = new THREE.DirectionalLight(0xffffff, 0.5); // 补光
-        directionalLight2.position.set(-10, -10, -10);
-        scene.add(directionalLight2);
+        // 轮廓光/补光：照亮背面，防止死黑
+        const backLight = new THREE.DirectionalLight(0xffffff, 0.5);
+        backLight.position.set(-50, -20, -50);
+        scene.add(backLight);
 
         // 6. 加载 OBJ 模型
         const loader = new OBJLoader();
@@ -1165,13 +1169,16 @@
                 const loadingText = document.getElementById('loading-text');
                 if (loadingText) loadingText.style.display = 'none';
 
-                // 1. 给模型加上材质
+                // 1. 给模型加上材质 (修改为白模风格)
                 object.traverse(function (child) {
                     if (child.isMesh) {
-                        child.material = new THREE.MeshPhongMaterial({
-                            color: 0x444444,
-                            flatShading: true,
-                            side: THREE.DoubleSide // 确保双面渲染，防止模型法线反了看不见
+                        // 使用 Standard 材质，这种材质配合上面的灯光效果最好
+                        child.material = new THREE.MeshStandardMaterial({
+                            color: 0xdddddd,  // 浅灰色 (比纯白好，不容易过曝)
+                            roughness: 0.6,   // 粗糙度：0.6 像粘土/石膏
+                            metalness: 0.1,   // 金属度：很低，避免像镜子
+                            flatShading: true, // 关键：保留体素的棱角感
+                            side: THREE.DoubleSide
                         });
                     }
                 });
