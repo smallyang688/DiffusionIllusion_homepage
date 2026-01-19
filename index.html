@@ -1439,6 +1439,87 @@
 </section>
 
 <section class="section">
+  <div class="container is-max-desktop has-text-centered">
+
+    <h2 class="title is-3">Differentiable Cylindrical Anamorphosis</h2>
+
+    <div class="columns is-centered is-vcentered">
+
+      <div class="column has-text-centered">
+        <div style="display: inline-block;">
+          <video
+            src="./static/videos/lookingglass_demo.mp4"
+            autoplay loop muted playsinline
+            style="height: 300px; width: auto; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+          </video>
+          <div class="caption" style="margin-top: 8px; font-weight: bold;">
+            Top-Left: Official Demo (LookingGlass)
+          </div>
+        </div>
+      </div>
+
+      <div class="column has-text-centered">
+        <div style="display: inline-block;">
+          <img
+            src="./static/images/cylinder_real_fail.jpg"
+            style="height: 300px; width: auto; border-radius: 10px; object-fit: contain; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+          <div class="caption" style="margin-top: 8px; font-weight: bold;">
+            Top-Right: Real-world Experiment Gap
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="columns is-centered" style="margin-top: 20px;">
+
+      <div class="column is-half has-text-centered">
+        <figure class="image">
+           <img src="./static/images/cylinder_sim_yourname.jpg" style="border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+        </figure>
+        <div class="caption" style="margin-top: 8px;">
+           <strong>Bottom-Left:</strong> Simulation ("Your Name")
+        </div>
+      </div>
+
+      <div class="column is-half has-text-centered">
+        <figure class="image">
+           <img src="./static/images/cylinder_sim_tothemoon.jpg" style="border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+        </figure>
+        <div class="caption" style="margin-top: 8px;">
+           <strong>Bottom-Right:</strong> Simulation ("To The Moon")
+        </div>
+      </div>
+
+    </div>
+
+    <div class="content has-text-justified" style="margin-top: 30px; background-color: #f5f5f5; padding: 20px; border-radius: 10px;">
+      <p>
+        We were deeply inspired by the impressive visual effects presented in
+        <strong><em>LookingGlass: Generative Anamorphoses via Laplacian Pyramid Warping</em></strong>
+        (Chang et al., CVPR 2025 Oral). Since the official codebase was unavailable, we attempted to reproduce
+        the differentiable cylindrical anamorphosis effect within our own framework.
+      </p>
+      <p>
+        Our computer simulations yielded promising results, as shown in the bottom row.
+        The <strong>bottom-left</strong> image demonstrates a generated example where the flat pattern appears as a
+        <em>starry sky</em> (left sub-panel), yet reveals the iconic hand-holding scene from the movie
+        <em>Your Name</em> when reflected on a cylinder (middle sub-panel), matching the target poster (right sub-panel).
+        Similarly, the <strong>bottom-right</strong> image presents another example where a flattened <em>monster</em>
+        pattern transforms into the silhouette of the heroine from the game <em>To the Moon</em>.
+      </p>
+      <p>
+        However, the <strong>top-right</strong> image illustrates our attempt to replicate this in the physical world
+        by printing the generated pattern and observing it through a reflective cylinder. The resulting reflection is
+        indistinct (compared to the official demo in the <strong>top-left</strong>), highlighting a significant
+        <strong>sim-to-real gap</strong> in our current implementation that requires further refinement in material modeling and alignment.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<section class="section">
   <div class="container is-max-desktop">
     <h2 class="title is-3 has-text-centered">Experimental Evaluation</h2>
     <div class="content has-text-justified">
